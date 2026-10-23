@@ -19,7 +19,10 @@
   input, textarea { width:100%; font:inherit; font-size:14px; padding:6px 8px; border:1px solid var(--line); border-radius:6px; background:#fff; color:var(--ink); }
   textarea { resize:vertical; min-height:60px; }
   .row { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
-  .item { border:1px solid var(--line); border-radius:8px; padding:8px; margin-bottom:8px; background:#fafbfc; }
+  .item { border:1px solid var(--line); border-left:5px solid var(--accent); border-radius:8px; padding:0 10px 10px; margin-bottom:14px; background:#f7f9fc; box-shadow:0 1px 3px rgba(0,0,0,.08); }
+  .item:nth-child(even) { background:#fbf7f8; border-left-color:#7b1e3a; }
+  .item .head { margin:0 -10px 4px; padding:6px 10px; background:var(--accent); color:#fff; font-size:12px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; border-radius:2px 7px 0 0; }
+  .item:nth-child(even) .head { background:#7b1e3a; }
   .item .row3 { display:grid; grid-template-columns:1fr 70px; gap:8px; }
   .item .tools { display:flex; gap:6px; margin-top:6px; }
   button { font:inherit; font-size:13px; padding:6px 10px; border:1px solid var(--line); border-radius:6px; background:#fff; cursor:pointer; }
@@ -47,9 +50,10 @@
   td.n { width:28px; color:var(--muted); }
   td.t { width:62px; white-space:nowrap; }
   td.m { width:56px; text-align:right; white-space:nowrap; }
-  td .sub { display:block; font-size:9.5pt; color:var(--muted); white-space:pre-wrap; }
+  td .sub { display:block; font-size:9.5pt; color:#2b3340; white-space:pre-wrap; margin-top:2px; }
   td a { color:#1a56b8; word-break:break-all; }
-  .src { margin-top:3px; }
+  .src { margin-top:6px; padding:3px 0 3px 8px; border-left:3px solid #7b1e3a; }
+  .src i { font-style:normal; font-weight:700; color:#7b1e3a; text-transform:uppercase; font-size:8.5pt; letter-spacing:.05em; }
   tfoot td { font-weight:600; border-bottom:none; border-top:2px solid var(--accent); }
   .notes { margin-top:10px; }
   .notes h3 { font-size:10pt; text-transform:uppercase; letter-spacing:.05em; color:var(--accent); margin:0 0 4px; }
@@ -189,6 +193,7 @@
     state.items.forEach((it, i) => {
       const el = document.createElement('div'); el.className = 'item';
       el.innerHTML = `
+        <div class="head">Punto ${i+1}${it.titulo ? ' · ' + esc(it.titulo.slice(0, 28)) : ''}</div>
         <div class="row3">
           <div><label>Tema</label><input data-k="titulo" value="${esc(it.titulo)}"></div>
           <div><label>Min.</label><input data-k="min" type="number" min="0" value="${esc(it.min)}"></div>
@@ -205,6 +210,7 @@
       el.addEventListener('input', e => {
         const k = e.target.dataset.k; if (!k) return;
         it[k] = k === 'min' ? (parseInt(e.target.value, 10) || 0) : e.target.value;
+        if (k === 'titulo') el.querySelector('.head').textContent = 'Punto ' + (i+1) + (it.titulo ? ' · ' + it.titulo.slice(0, 28) : '');
         update();
       });
       el.addEventListener('click', e => {
