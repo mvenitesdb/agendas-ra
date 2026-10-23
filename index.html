@@ -67,13 +67,16 @@
     .sheet { transform-origin:top left; }
   }
 
-  @page { size:A4; margin:0; }
+  @page { size:A4; margin:16mm 16mm 18mm; }
   @media print {
     body { background:#fff; }
     .panel { display:none; }
     .app { display:block; }
     .preview { padding:0; overflow:visible; }
-    .sheet { box-shadow:none; margin:0; width:auto; min-height:0; padding:18mm 18mm 16mm; }
+    .sheet { box-shadow:none; margin:0; width:auto; min-height:0; padding:0; }
+    thead { display:table-header-group; }
+    tfoot { display:table-row-group; }
+    .notes { break-inside:avoid; }
     * { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
   }
 </style>
@@ -126,7 +129,7 @@
       <button class="danger" id="clear">Limpiar</button>
     </div>
     <input type="file" id="file" accept="application/json" hidden>
-    <p class="hint" style="margin-top:12px">En el diálogo de impresión elegí «Guardar como PDF» y desactivá «Encabezados y pies de página».</p>
+    <p class="hint" style="margin-top:12px">En el diálogo de impresión elegí «Guardar como PDF» , dejá «Márgenes: Predeterminado», tamaño A4, y desactivá «Encabezados y pies de página».</p>
   </aside>
 
   <main class="preview">
